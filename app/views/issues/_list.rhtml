@@ -1,0 +1,44 @@
+<script type="text/javascript">
+//<![CDATA[
+function toggle_group(group_id) {
+  $$('tr.group-' + group_id).invoke('toggle');//.hide();
+  el = $('gh-' + group_id); 
+  el.className = (el.className == "entry")?'entry   open':'entry';
+}
+//]]>
+</script>
+<% form_tag({}) do -%>	
+<table class="list issues">
+    <thead><tr>
+        <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+                                                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        </th>
+		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+        <% query.columns.each do |column| %>
+          <%= column_header_with_spans(column) %>
+        <% end %>
+	</tr></thead>
+	<tbody>
+  <% group_num = 0 %>
+  <% col_nums = query.columns.size %>
+  <% issues_by_group = group_issues(issues, query) %>
+  <% issues_by_group.each do |key, issue_list| -%>
+  <% group_num = group_num+1 %>
+  
+  <% if (issues_by_group.size>1) || (!key.empty?) %> 
+  <tr class="entry open" id="gh-<%= group_num.to_s %>">
+    <td colspan="<%= col_nums+13 %>" class="header">
+    <span class="expander" onclick='toggle_group(<%= group_num.to_s %>);'>&nbsp;</span> [<%= key.strip %>] (<%= issue_list.size %>)</td>
+  </tr>
+  <% end %>
+  <% #issue_list = issue_list.select{|i| i.ancestors.size == 0} %>
+  <%= render :partial => 'issues/sublist', :locals => {:issue_list => issue_list, :query => query, :group_num => group_num, :level => 1, :graph => [] } %>
+
+  <% end -%>  
+	</tbody>
+  </table>
+<% end -%>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'stylesheet', :plugin => 'redmine_issues_group' %>
+<% end %> 

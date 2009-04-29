@@ -1,0 +1,4 @@
+# English strings go here
+en:
+  label_main_project: "Main project"
+  label_group_by: "Group by"

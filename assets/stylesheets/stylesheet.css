@@ -1,0 +1,67 @@
+/***** Auto-complete *****/
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  cursor:pointer;
+  font-size: 90%;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+div.autocomplete ul li span.informal {
+  font-size: 80%;
+  color: #aaa;
+} 
+table.issues tr.issue td.subject {
+  padding: 0px;
+  vertical-align: middle;
+}
+table.issues tr.issue td.subject { 
+  width: 100%; padding-left: 5px;
+  /*border: 1px green solid;*/
+} 
+table.issues tr.issue td.has-childs, table.issues tr.issue td.outline-1, table.issues tr.issue td.outline-2, table.issues tr.issue td.outline-3, table.issues tr.issue td.outline-4, table.issues tr.issue td.outline-5, table.issues tr.issue td.space 
+{ margin: 0px; 
+  padding: 0px; 
+  /*float: left; */
+  width: 20px;
+  min-width: 20px;
+  /*max-width: 20px;*/
+  /*border: 1px red solid;*/
+  /*vertiacal-align: top; */
+  background: none;
+  background-position: center; 
+  background-repeat: no-repeat;
+}
+table.issues tr.issue td.has-childs { background-image: url(../images/bullet_toggle_plus.png); cursor: pointer; }
+table.issues tr.issue td.outline-1.has-childs {background-image: url(../images/outline_1_plus.png); cursor: pointer;}
+table.issues tr.issue td.outline-2.has-childs {background-image: url(../images/outline_2_plus.png); cursor: pointer;}
+table.issues tr.issue td.outline-4.has-childs {background-image: url(../images/outline_4_plus.png); cursor: pointer;}
+table.issues tr.issue td.outline-5.has-childs {background-image: url(../images/outline_5_plus.png); cursor: pointer;}
+table.issues tr.issue td.outline-1.has-childs.open {background-image: url(../images/outline_1_minus.png); cursor: pointer;}
+table.issues tr.issue td.outline-2.has-childs.open {background-image: url(../images/outline_2_minus.png); cursor: pointer;}
+table.issues tr.issue td.outline-4.has-childs.open {background-image: url(../images/outline_4_minus.png); cursor: pointer;}
+table.issues tr.issue td.outline-5.has-childs.open {background-image: url(../images/outline_5_minus.png); cursor: pointer;}
+table.issues tr.issue td.outline-1 { background-image: url(../images/outline_1.png); }
+table.issues tr.issue td.outline-2 { background-image: url(../images/outline_2.png); }
+table.issues tr.issue td.outline-3 { background-image: url(../images/outline_3.png); }
+table.issues tr.issue td.outline-4 { background-image: url(../images/outline_4.png); }
+table.issues tr.issue td.outline-5 { background-image: url(../images/outline_5.png); }
+
+tr.entry td.header span.expander { background-image: url(../images/plus.png); background-position: center; background-repeat: no-repeat; }
+tr.entry.open td.header span.expander { background-image: url(../images/minus.png); background-position: center; background-repeat: no-repeat; }

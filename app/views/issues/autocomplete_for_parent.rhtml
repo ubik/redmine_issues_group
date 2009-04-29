@@ -1,0 +1,5 @@
+<ul>
+<% @issues.each do |issue| -%>
+	<li><%= h issue.id %><span class="informal"> (<%= h(issue.project.name) %> - <%= h(issue.subject) %>)</span></li>
+<% end -%>
+</ul>

@@ -1,0 +1,20 @@
+  <% i = 0 %>
+  <% #issue_list.sort!{|x,y| y.event_datetime <=> x.event_datetime } %>
+  <% #issue_list = issue_list.sort_by{|i| i.send(:subject)} %>
+	<% issue_list.each do |issue| -%>
+  <% i += 1 %>
+  <% g = graph + [(issue == issue_list.last)? 2 : (issue == issue_list.first ? 0 : 1)] %>
+	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %> group-<%= group_num %>">
+	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %><%# "sort=#{(sort_criteria[0][0] rescue "none")}" %></td>
+		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
+        <% query.columns.each do |column| %>
+          <% if (column.name == :subject) %>
+            <%= issue_outline(issue, issue_list, level, g) %>
+            <%= content_tag 'td', column_content(column, issue), :class => column.name, :colspan => 10-level %>
+          <% else %>
+            <%= content_tag 'td', column_content(column, issue), :class => column.name %>
+          <% end %>
+        <% end %>
+	</tr>
+  <%= render :partial => 'issues/sublist', :locals => {:issue_list => issue.children, :query => query, :group_num => group_num, :level => level+1, :graph => g } %>
+  <% end -%>
