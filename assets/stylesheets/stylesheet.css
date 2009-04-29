@@ -65,3 +65,5 @@ table.issues tr.issue td.outline-5 { background-image: url(../images/outline_5.p
 
 tr.entry td.header span.expander { background-image: url(../images/plus.png); background-position: center; background-repeat: no-repeat; }
 tr.entry.open td.header span.expander { background-image: url(../images/minus.png); background-position: center; background-repeat: no-repeat; }
+
+.icon-parent-edit { background-image: url(../images/chain.png); }

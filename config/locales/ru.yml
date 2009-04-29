@@ -2,3 +2,7 @@
 ru:
   label_main_project: "Главный проект"
   label_group_by: "Группировать по"
+  button_parent_edit: "Изменить родителя"
+  label_parent_edit_selected_issues: "Изменить родителя"
+  field_parent_issue: "Родитель"
+  notice_failed_to_update: "Невозможно обновить"

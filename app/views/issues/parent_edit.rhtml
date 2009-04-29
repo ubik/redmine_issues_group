@@ -1,0 +1,19 @@
+<h2><%= l(:label_parent_edit_selected_issues) %></h2>
+
+<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.tracker} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
+
+<% form_tag() do %>
+<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
+
+<label for="parent"><%=l(:field_parent_issue)%></label>
+<%= text_field_tag 'parent', '', :size => 80 %></label>
+<div id="parent_choices" class="autocomplete"></div>
+<%= javascript_tag "new Ajax.Autocompleter('parent', 'parent_choices', '#{ controller.url_for(:controller => 'issues', :action => 'autocomplete_for_parent') }', { minChars: 1, frequency: 0.5, paramName: 'text' });" %>
+</fieldset>
+
+<p><%= submit_tag l(:button_submit) %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'stylesheet', :plugin => 'redmine_issues_group' %>
+<% end %> 

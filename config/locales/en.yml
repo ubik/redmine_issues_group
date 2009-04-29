@@ -2,3 +2,7 @@
 en:
   label_main_project: "Main project"
   label_group_by: "Group by"
+  button_parent_edit: "Change parent"
+  label_parent_edit_selected_issues: "Change parent"
+  field_parent_issue: "Parent"
+  notice_failed_to_update: "Failed to update" 
