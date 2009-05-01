@@ -4,7 +4,7 @@
 	<% issue_list.each do |issue| -%>
   <% i += 1 %>
   <% g = graph + [(issue == issue_list.last)? 2 : (issue == issue_list.first ? 0 : 1)] %>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %> group-<%= group_num %>">
+	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %> group-<%= group_num %> <%= issue.ancestors.collect{|a| 'subissues-' + a.id.to_s}.join(' ') %> ">
 	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %><%# "sort=#{(sort_criteria[0][0] rescue "none")}" %></td>
 		<td><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %>

@@ -45,7 +45,7 @@ module IssuesHelperPatch
         else "space"
       end
       class_name = class_name + " has-childs open" if (issue.children.size>0)
-      content += content_tag 'td', '&nbsp;', :class => class_name
+      content += content_tag 'td', '&nbsp;', :class => class_name, :onclick => (issue.children.size>0) ? "toggle_sub(" + issue.id.to_s + ");" : ""
       content
     end
     def column_header_with_spans(column)
