@@ -3,7 +3,9 @@ require_dependency 'issues_controller'
 
 class IssuesController < ApplicationController
 	skip_before_filter :authorize, :only => [:autocomplete_for_parent]
-  before_filter :find_issues, :only => [:bulk_edit, :move, :destroy, :parent_edit]
+  #before_filter :find_all_issues, :only => [:parent_edit] #:bulk_edit, :move, :destroy, 
+  prepend_before_filter :find_all_issues, :authorize, :only => [:parent_edit]
+
   def autocomplete_for_parent
     @issues = Issue.find(:all, :conditions => ["LOWER(subject) LIKE ? OR id LIKE ?", "%#{params[:text]}%", "%#{params[:text]}%"],
                               :limit => 10,
@@ -27,11 +29,19 @@ class IssuesController < ApplicationController
           flash[:notice] = l(:notice_successful_update) unless @issues.empty?
         end
       end
-      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
+      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index'}) #:project_id => @project
       return
     end
   end
   private
+  def find_all_issues
+    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
+    raise ActiveRecord::RecordNotFound if @issues.empty?
+    projects = @issues.collect(&:project).compact.uniq
+    @project = projects.first
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
   def retrieve_query_with_groupby
     retrieve_query_without_groupby
     if params[:query_id].blank?
