@@ -16,6 +16,7 @@ class IssuesController < ApplicationController
     if request.post?
       if params[:parent]
         i = Issue.find_by_id(params[:parent]) rescue nil unless params[:parent].empty? 
+        @project = i.nil? ? nil : i.project 
         if @issues.include?(i)
           flash[:error] = l(:notice_failed_to_update)
         else
@@ -29,7 +30,7 @@ class IssuesController < ApplicationController
           flash[:notice] = l(:notice_successful_update) unless @issues.empty?
         end
       end
-      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index'}) #:project_id => @project
+      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
   end

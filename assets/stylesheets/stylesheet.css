@@ -48,7 +48,9 @@ table.issues tr.issue td.has-childs, table.issues tr.issue td.outline-1, table.i
   background-position: center; 
   background-repeat: no-repeat;
 }
-table.issues tr.issue td.has-childs { background-image: url(../images/bullet_toggle_plus.png); cursor: pointer; }
+th span.has-childs { background-image: url(../images/plus.png); cursor: pointer; background-position: center; background-repeat: no-repeat; }
+th span.has-childs.open { background-image: url(../images/minus.png); }
+table.issues tr.issue td.has-childs { background-image: url(../images/plus.png); cursor: pointer; }
 table.issues tr.issue td.outline-1.has-childs {background-image: url(../images/outline_1_plus.png); cursor: pointer;}
 table.issues tr.issue td.outline-2.has-childs {background-image: url(../images/outline_2_plus.png); cursor: pointer;}
 table.issues tr.issue td.outline-4.has-childs {background-image: url(../images/outline_4_plus.png); cursor: pointer;}

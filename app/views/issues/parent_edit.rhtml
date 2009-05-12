@@ -3,10 +3,11 @@
 <ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.tracker} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
 
 <% form_tag() do %>
+<fieldset>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 
 <label for="parent"><%=l(:field_parent_issue)%></label>
-<%= text_field_tag 'parent', '', :size => 80 %></label>
+<%= text_field_tag 'parent', '', :size => 80 %>
 <div id="parent_choices" class="autocomplete"></div>
 <%= javascript_tag "new Ajax.Autocompleter('parent', 'parent_choices', '#{ controller.url_for(:controller => 'issues', :action => 'autocomplete_for_parent') }', { minChars: 1, frequency: 0.5, paramName: 'text' });" %>
 </fieldset>

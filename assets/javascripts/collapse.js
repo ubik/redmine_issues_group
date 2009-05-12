@@ -28,3 +28,21 @@ function toggle_sub(group_id) {
     $j('tr.subissues-' + group_id + ' td.has-childs').addClass('open');
   }
 }
+function toggle_all(evt)
+{
+  th = $j("table.issues thead th span.has-childs");
+  if (th.hasClass('open'))
+  { // Hide
+    el = $j('tr td.has-childs.open');
+    th.removeClass('open');
+    el.removeClass('open'); //invoke('toggle');//.hide();
+    $j('tr.subissue').hide(); //invoke('toggle');//.hide();
+  } else
+  { // Show
+    el = $j('tr td.has-childs');
+    th.addClass('open');
+    el.addClass('open'); //invoke('toggle');//.hide();
+    $j('tr.subissue').show(); //invoke('toggle');//.hide();
+    $j('tr.subissue td.has-childs').addClass('open');
+  }
+}

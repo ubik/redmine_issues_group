@@ -44,18 +44,18 @@ module IssuesHelperPatch
         when 2; issue == issue_list.first && level == 1 ? "outline-5" : "outline-1"
         else "space"
       end
-      class_name = class_name + " has-childs open" if (issue.children.size>0)
-      content += content_tag 'td', '&nbsp;', :class => class_name, :onclick => (issue.children.size>0) ? "toggle_sub(" + issue.id.to_s + ");" : ""
+      class_name = class_name + " has-childs open" unless issue.leaf?
+      content += content_tag 'td', '&nbsp;', :class => class_name, :onclick => issue.leaf? ? "" : "toggle_sub(" + issue.id.to_s + ");"
       content
     end
     def column_header_with_spans(column)
-      column.name == :subject ? sort_header_tag(column.name.to_s, :caption => column.caption, :default_order => column.default_order, :colspan => 10) : 
+      column.name == :subject ? "<th><span class='has-childs open' onclick='toggle_all();'>&nbsp;&nbsp;&nbsp;&nbsp;</span></th>"+sort_header_tag(column.name.to_s, :caption => column.caption, :default_order => column.default_order, :colspan => 9) :
         column_header(column)
     end
     def column_plain_content(column_name, issue)
       column = @query.available_columns.find{|c| c.name == column_name}
   		if column.nil?
-  			issue.project.parent ? issue.project.parent.name : issue.project.name if column_name = :main_project
+  			issue.project.parent ? issue.project.parent.name : issue.project.name if column_name == :main_project
   		else
   			if column.is_a?(QueryCustomFieldColumn)
   				cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}

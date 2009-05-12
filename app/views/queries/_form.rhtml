@@ -10,7 +10,7 @@
 <%= text_field 'query', 'category', :size => "80" %></p>
 <div id="query_categories_choices" class="autocomplete"></div>
 <%= javascript_tag "new Ajax.Autocompleter('query_category', 'query_categories_choices', '#{ url_for(:controller => 'queries', :action => 'autocomplete_for_category') }', { minChars: 1, frequency: 0.5, paramName: 'category' });" %>
-<%# text_field 'query', 'category', :size => 80 %></p>
+<%# text_field 'query', 'category', :size => 80 %>
 
 <% if User.current.admin? || (@project && current_role.allowed_to?(:manage_public_queries)) %>
 <p><label for="query_is_public"><%=l(:field_is_public)%></label>
