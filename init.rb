@@ -3,12 +3,13 @@ require 'query'
 require_dependency 'issues_helper_patch'
 require 'awesome_nested_set_issues_patch'
 require 'issue_relation_patch'
+require 'issues_sub_tasks_hook'
 
 Redmine::Plugin.register :redmine_issues_group do
   name 'Redmine Issues Group plugin'
   author 'Andrew Chaika'
   description 'This is a issue group plugin for Redmine'
-  version '0.0.8'
+  version '0.0.9'
   requires_redmine :version_or_higher => '0.8.0' 
   project_module :issue_tracking do
     permission :edit_parent, {:issues => [:parent_edit]}
