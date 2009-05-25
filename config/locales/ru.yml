@@ -7,3 +7,4 @@ ru:
   field_parent_issue: "Родитель"
   notice_failed_to_update: "Невозможно обновить"
   label_subissues: "Подзадачи"
+  label_add_subissue: Добавить подзадачу

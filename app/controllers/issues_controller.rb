@@ -4,7 +4,8 @@ require_dependency 'issues_controller'
 class IssuesController < ApplicationController
 	skip_before_filter :authorize, :only => [:autocomplete_for_parent]
   #before_filter :find_all_issues, :only => [:parent_edit] #:bulk_edit, :move, :destroy, 
-  prepend_before_filter :find_all_issues, :authorize, :only => [:parent_edit]
+  before_filter :find_issues, :only => [:copy_subissue]
+  prepend_before_filter :find_all_issues, :authorize, :only => [:parent_edit, :copy_subissue]
 
   def autocomplete_for_parent
     @issues = Issue.find(:all, :conditions => ["LOWER(subject) LIKE ? OR id LIKE ?", "%#{params[:text]}%", "%#{params[:text]}%"],
@@ -34,6 +35,44 @@ class IssuesController < ApplicationController
       return
     end
   end
+
+  def copy_subissue
+    @allowed_projects = []
+    # find projects to which the user is allowed to move the issue
+    if User.current.admin?
+      # admin is allowed to move issues to any active (visible) project
+      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current))
+    else
+      User.current.memberships.each {|m| @allowed_projects << m.project if m.role.allowed_to?(:move_issues)}
+    end
+    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
+    @target_project ||= @project
+    @trackers = @target_project.trackers
+    if request.post?
+      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
+      unsaved_issue_ids = []
+      @issues.each do |issue|
+        issue.init_journal(User.current)
+        issue.subject = params[:new_subject]
+        #unsaved_issue_ids << issue.id unless
+        i2 = issue.move_to(@target_project, new_tracker, params[:copy_options])
+        i2.move_to_child_of issue
+        i2.save
+        issue.reload
+      end
+      if unsaved_issue_ids.empty?
+        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+      else
+        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
+                                                         :total => @issues.size,
+                                                         :ids => '#' + unsaved_issue_ids.join(', #'))
+      end
+      redirect_to :controller => 'issues', :action => 'show', :id => @issues[0].id
+      return
+    end
+    render :layout => false if request.xhr?
+  end
+
   private
   def find_all_issues
     @issues = Issue.find_all_by_id(params[:id] || params[:ids])

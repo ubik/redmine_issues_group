@@ -1,0 +1,126 @@
+<style type="text/css">
+    #dialog, button { font-size: 70%;  }
+    .tabular label { width: 75px; margin-left: -80px; }
+    .tabular p { padding-left: 75px; }
+		.ui-button { outline: 0; margin:0; padding: .4em 1em .5em; text-decoration:none;  !important; cursor:pointer; position: relative; text-align: center; }
+		.ui-dialog .ui-state-highlight, .ui-dialog .ui-state-error { padding: .3em;  }
+		/*label, input { display:block; }
+		input.text { margin-bottom:12px; width:95%; padding: .4em; }
+		fieldset { padding:0; border:0; margin-top:25px; }
+		h1 { font-size: 1.2em; margin: .6em 0; }
+		div#users-contain {  width: 350px; margin: 20px 0; }
+		div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+		div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+*/
+
+	</style>
+	<script type="text/javascript">
+	$(function() {
+
+		var name = $("#name"),
+			email = $("#email"),
+			password = $("#password"),
+			allFields = $([]).add(name).add(email).add(password),
+			tips = $("#validateTips");
+
+		function updateTips(t) {
+			tips.text(t).effect("highlight",{},1500);
+		}
+
+		function checkLength(o,n,min,max) {
+
+			if ( o.val().length > max || o.val().length < min ) {
+				o.addClass('ui-state-error');
+				updateTips("Length of " + n + " must be between "+min+" and "+max+".");
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+
+		function checkRegexp(o,regexp,n) {
+
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass('ui-state-error');
+				updateTips(n);
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+
+		$("#dialog").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			width: 500,
+      height: 300,
+			modal: true,
+			buttons: {
+				'<%= l(:button_add) %>': function() {
+					allFields.removeClass('ui-state-error');
+
+          $('#add_subissue_form').submit();
+					$(this).dialog('close');
+          
+				},
+				'<%= l(:button_cancel) %>': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function() {
+				allFields.val('').removeClass('ui-state-error');
+			}
+		});
+
+
+
+		/*$('#create-issue').click(function() {
+			$('#dialog').dialog('open');
+		})
+		.hover(
+			function(){
+				$(this).addClass("ui-state-hover");
+			},
+			function(){
+				$(this).removeClass("ui-state-hover");
+			}
+		).mousedown(function(){
+			$(this).addClass("ui-state-active");
+		})
+		.mouseup(function(){
+				$(this).removeClass("ui-state-active");
+		});*/
+
+	});
+	</script>
+
+
+
+<div id="dialog" title="<%= l :label_add_subissue %>">
+
+<% form_tag({:action => 'copy_subissue'}, :id => 'add_subissue_form') do %>
+<%= hidden_field_tag('ids[]', @issue.id) %>
+
+<div class="box tabular">
+<p><label for="new_project_id"><%=l(:field_project)%>:</label>
+<%= select_tag "new_project_id",
+               project_tree_options_for_select(@allowed_projects, :selected => @target_project) %></p>
+
+<p><label for="new_tracker_id"><%=l(:field_tracker)%>:</label>
+<%= select_tag "new_tracker_id", "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@trackers, "id", "name") %></p>
+
+<p><label for="new_subject"><%=l(:field_subject)%>:</label>
+<%= text_field_tag "new_subject", @issue.subject, :size => 70 %></p>
+
+<%= hidden_field_tag("copy_options[copy]", "1") %>
+</div>
+
+<% submit_tag l(:button_add) %>
+<% end %>
+</div>
+
+<div class="contextual">
+<%= link_to_if_authorized(l(:button_add), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => '$("#dialog").dialog("open"); return false;', :class => 'icon icon-add') %>
+</div>

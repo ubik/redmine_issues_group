@@ -7,3 +7,4 @@ en:
   field_parent_issue: "Parent"
   notice_failed_to_update: "Failed to update"
   label_subissues: "Subissues"
+  label_add_subissue: Add subissue
