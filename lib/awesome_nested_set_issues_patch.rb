@@ -31,5 +31,3 @@ module AwesomeNestedSetIssuesPatch
   end
   
 end
-
-CollectiveIdea::Acts::NestedSet::InstanceMethods.send(:include, AwesomeNestedSetIssuesPatch)

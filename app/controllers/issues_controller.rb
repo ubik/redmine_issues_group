@@ -4,8 +4,9 @@ require_dependency 'issues_controller'
 class IssuesController < ApplicationController
 	skip_before_filter :authorize, :only => [:autocomplete_for_parent]
   #before_filter :find_all_issues, :only => [:parent_edit] #:bulk_edit, :move, :destroy, 
-  before_filter :find_issues, :only => [:copy_subissue]
-  prepend_before_filter :find_all_issues, :authorize, :only => [:parent_edit, :copy_subissue]
+  #before_filter :find_issues, :only => [:copy_subissue]
+  prepend_before_filter :find_all_issues, :only => [:parent_edit, :copy_subissue] #:authorize,
+  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
 
   def autocomplete_for_parent
     @issues = Issue.find(:all, :conditions => ["LOWER(subject) LIKE ? OR id LIKE ?", "%#{params[:text]}%", "%#{params[:text]}%"],

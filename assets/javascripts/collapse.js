@@ -1,5 +1,3 @@
-var $j = jQuery.noConflict();
-
 function toggle_group(group_id) {
   el = $j('#gh-' + group_id); 
   if (!el.hasClass("open"))

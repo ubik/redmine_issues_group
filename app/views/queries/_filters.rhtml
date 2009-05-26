@@ -102,6 +102,7 @@ function toggle_multi_select(field) {
 																		:name => nil %>
 </td>
 </tr>
+<% if (Redmine::VERSION::REVISION < 2696)  %>
 <tr>
 <td class="add-filter">
 <%= l(:label_group_by) %>:
@@ -110,4 +111,5 @@ function toggle_multi_select(field) {
                                     :style => "width: 150px" %>
 </td>
 </tr>
+<% end %>
 </table>

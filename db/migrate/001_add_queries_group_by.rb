@@ -1,6 +1,6 @@
   class AddQueriesGroupBy < ActiveRecord::Migration
     def self.up
-      add_column :queries, :group_by, :string
+      add_column :queries, :group_by, :string rescue nil
     end
 
     def self.down

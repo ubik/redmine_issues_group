@@ -8,5 +8,3 @@ module IssueRelationPatch
     end
   end
 end
-
-Issue.send(:include, IssueRelationPatch)

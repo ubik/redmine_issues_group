@@ -76,5 +76,3 @@ module IssuesHelperPatch
     end
   end
 end
-
-IssuesHelper.send(:include, IssuesHelperPatch)

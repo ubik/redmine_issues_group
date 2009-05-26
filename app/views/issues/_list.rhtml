@@ -19,7 +19,7 @@
   <% if (issues_by_group.size>1) || (!key.empty?) %> 
   <tr class="entry open" id="gh-<%= group_num.to_s %>">
     <td colspan="<%= col_nums+13 %>" class="header">
-    <span class="expander" onclick='toggle_group(<%= group_num.to_s %>);'>&nbsp;</span> [<%= key.strip %>] (<%= issue_list.size %>)</td>
+    <span class="expander" onclick='toggle_group(<%= group_num.to_s %>);'>&nbsp;</span> [<%= key.strip %>] (<%= issue_list.collect{|i| (i.right-i.left-1)/2}.sum + issue_list.size %>)</td>
   </tr>
   <% end %>
   <% #issue_list = issue_list.select{|i| i.ancestors.size == 0} %>
@@ -32,8 +32,6 @@
 
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'stylesheet', :plugin => 'redmine_issues_group' %>
-    <%= stylesheet_link_tag 'jquery-ui', :plugin => 'redmine_issues_group' %>
     <%= javascript_include_tag 'jquery', :plugin => 'redmine_issues_group' %>
-    <%= javascript_include_tag 'jquery-ui', :plugin => 'redmine_issues_group' %>
     <%= javascript_include_tag 'collapse', :plugin => 'redmine_issues_group' %>
 <% end %> 
