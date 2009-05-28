@@ -10,7 +10,7 @@ Redmine::Plugin.register :redmine_issues_group do
   name 'Redmine Issues Group plugin'
   author 'Andrew Chaika'
   description 'This is a issue group plugin for Redmine'
-  version '0.1.1'
+  version '0.1.4'
   requires_redmine :version_or_higher => '0.8.0' 
   project_module :issue_tracking do
     permission :edit_parent, {:issues => [:parent_edit, :copy_subissue, :autocomplete_for_parent]}

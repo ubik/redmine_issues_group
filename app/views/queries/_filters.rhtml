@@ -102,7 +102,7 @@ function toggle_multi_select(field) {
 																		:name => nil %>
 </td>
 </tr>
-<% if (Redmine::VERSION::REVISION < 2696)  %>
+<% if (!query.respond_to?(:groupable_columns)) %>
 <tr>
 <td class="add-filter">
 <%= l(:label_group_by) %>:
